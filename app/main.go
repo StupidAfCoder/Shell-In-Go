@@ -23,7 +23,7 @@ func main() {
 		}
 		switch {
 		case command[0:4] == "echo":
-			fmt.Println(command2[4:])
+			fmt.Println(command2[5:])
 		default:
 			fmt.Println(command[:len(command)-1] + ": command not found")
 		}
