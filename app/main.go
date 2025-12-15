@@ -17,9 +17,9 @@ func main() {
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		command = strings.TrimSpace(command)
+		command2 := strings.TrimSpace(command)
 		commandExit := "exit"
-		if command == commandExit {
+		if command2 == commandExit {
 			break
 		}
 		fmt.Println(command[:len(command)-1] + ": command not found")
