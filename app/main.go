@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-	// TODO: Uncomment the code below to pass the first stage
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print("$ ")
@@ -22,6 +21,11 @@ func main() {
 		if command2 == commandExit {
 			break
 		}
-		fmt.Println(command[:len(command)-1] + ": command not found")
+		switch {
+		case command[0:4] == "echo":
+			fmt.Println(command2[4:])
+		default:
+			fmt.Println(command[:len(command)-1] + ": command not found")
+		}
 	}
 }
