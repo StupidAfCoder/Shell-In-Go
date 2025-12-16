@@ -13,7 +13,7 @@ var allCommands = []string{"echo", "exit", "type"}
 func checkCommand(command string) (string, string) {
 	cmd, param, found := strings.Cut(command, " ")
 	if !found {
-		return command[:len(command)-1] + ": command not found", ""
+		return command[:] + ": command not found", ""
 	}
 	switch cmd {
 	case "echo":
@@ -21,7 +21,7 @@ func checkCommand(command string) (string, string) {
 	case "type":
 		return cmd, param
 	default:
-		return command[:len(command)-1] + ": command not found", ""
+		return command[:] + ": command not found", ""
 	}
 }
 
