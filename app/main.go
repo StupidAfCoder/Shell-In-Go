@@ -31,7 +31,7 @@ func executeCommand(command string, param string) {
 	}
 	switch command {
 	case "echo":
-		fmt.Print(param)
+		fmt.Println(param)
 	case "type":
 		actualCommand := false
 		for _, v := range allCommands {
