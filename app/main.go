@@ -10,7 +10,7 @@ import (
 )
 
 var allCommands = []string{"echo", "exit", "type"}
-var PATH = os.Getenv("PATH")
+var PATH = "/usr/bin:/usr/local/bin:" + os.Getenv("PATH")
 
 func checkCommand(command string) (string, string) {
 	cmd, param, found := strings.Cut(command, " ")
