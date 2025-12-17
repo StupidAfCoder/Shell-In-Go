@@ -47,20 +47,25 @@ func executeCommand(command string, param string) {
 		for _, path := range pathSlice {
 			entries, err := os.ReadDir(path)
 			if err != nil {
-				log.Fatal(err.Error())
+				continue
 			}
 			for _, entry := range entries {
 				if entry.Name() == param {
-					info, err := os.Stat(path)
+					filePath := filepath.Join(path, param)
+					info, err := os.Stat(filePath)
 					if err != nil {
-						log.Fatal(err.Error())
+						continue
 					}
 					isExecutable := info.Mode()&0111 != 0
 					if isExecutable {
-						foundPath = filepath.Join(path, param)
+						foundPath = filePath
 						directoryCommand = true
+						break
 					}
 				}
+			}
+			if directoryCommand {
+				break
 			}
 		}
 		if directoryCommand {
