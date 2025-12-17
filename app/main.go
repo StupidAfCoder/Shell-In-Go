@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"slices"
 	"strings"
 )
 
 var allCommands = []string{"echo", "exit", "type"}
-var PATH = "/usr/bin:/usr/local/bin:" + os.Getenv("PATH")
+var PATH = os.Getenv("PATH")
 
 func checkCommand(command string) (string, string) {
 	cmd, param, found := strings.Cut(command, " ")
@@ -56,7 +57,7 @@ func executeCommand(command string, param string) {
 					}
 					isExecutable := info.Mode()&0111 != 0
 					if isExecutable {
-						foundPath = path
+						foundPath = filepath.Join(path, param)
 						directoryCommand = true
 					}
 				}
