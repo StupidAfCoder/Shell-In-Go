@@ -10,7 +10,7 @@ import (
 )
 
 var allCommands = []string{"echo", "exit", "type"}
-var PATH = "/usr/bin:/usr/:/home/"
+var PATH = os.Getenv("PATH")
 
 func checkCommand(command string) (string, string) {
 	cmd, param, found := strings.Cut(command, " ")
@@ -50,8 +50,15 @@ func executeCommand(command string, param string) {
 			}
 			for _, entry := range entries {
 				if entry.Name() == param {
-					foundPath = path
-					directoryCommand = true
+					info, err := os.Stat(path)
+					if err != nil {
+						log.Fatal(err.Error())
+					}
+					isExecutable := info.Mode()&0111 != 0
+					if isExecutable {
+						foundPath = path
+						directoryCommand = true
+					}
 				}
 			}
 		}
