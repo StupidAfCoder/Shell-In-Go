@@ -15,6 +15,7 @@ var allCommands = []string{"echo", "exit", "type"}
 var PATH = os.Getenv("PATH")
 
 func runCommand(path string, args []string) error {
+	path = filepath.Base(path)
 
 	if args == nil {
 		cmd := exec.Command(path)
