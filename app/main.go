@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"slices"
 	"strings"
 )
 
 var allCommands = []string{"echo", "exit", "type"}
+var PATH = "/usr/bin:/usr/:/home/"
 
 func checkCommand(command string) (string, string) {
 	cmd, param, found := strings.Cut(command, " ")
@@ -33,18 +35,31 @@ func executeCommand(command string, param string) {
 	case "echo":
 		fmt.Println(param)
 	case "type":
-		actualCommand := false
-		for _, v := range allCommands {
-			if param == v {
-				actualCommand = true
-				break
-			}
-		}
+		actualCommand := slices.Contains(allCommands, param)
 		if actualCommand {
 			fmt.Printf("%s is a shell builtin\n", param)
-		} else {
-			fmt.Printf("%s: not found\n", param)
+			break
 		}
+		directoryCommand := false
+		foundPath := ""
+		pathSlice := strings.Split(PATH, ":")
+		for _, path := range pathSlice {
+			entries, err := os.ReadDir(path)
+			if err != nil {
+				log.Fatal(err.Error())
+			}
+			for _, entry := range entries {
+				if entry.Name() == param {
+					foundPath = path
+					directoryCommand = true
+				}
+			}
+		}
+		if directoryCommand {
+			fmt.Printf("%s is %s\n", param, foundPath)
+			break
+		}
+		fmt.Printf("%s: not found\n", param)
 	}
 }
 
